@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "bSIya13nQSo=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\alepulid\\OneDrive - Metso\\Documents\\GitHub\\Webapp\\gastos-app\\gastos-app.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\alepulid\\.nuget\\packages\\microsoft.aspnetcore.app.internal.assets\\10.0.12\\microsoft.aspnetcore.app.internal.assets.10.0.12.nupkg.sha512"
+  ],
+  "logs": []
+}
