@@ -5,7 +5,7 @@ var e=!1;const t=async()=>WebAssembly.validate(new Uint8Array([0,97,115,109,1,0,
   "mainAssemblyName": "gastos-client",
   "applicationEnvironment": "Development",
   "resources": {
-    "hash": "sha256-tULEeSt/MAO5KU8jCpRU0YyPBBWRuvMmnARB9SfWwbA=",
+    "hash": "sha256-ORhd8xnO/M5LB3y6TJRlVjCu3qdNm4qk7hZKGGP3mZo=",
     "jsModuleNative": [
       {
         "name": "dotnet.native.q38003gvqi.js"
@@ -1235,18 +1235,34 @@ var e=!1;const t=async()=>WebAssembly.validate(new Uint8Array([0,97,115,109,1,0,
         "cache": "force-cache"
       },
       {
+        "virtualPath": "Microsoft.DotNet.HotReload.WebAssembly.Browser.wasm",
+        "name": "Microsoft.DotNet.HotReload.WebAssembly.Browser.kbdorjwhqd.wasm",
+        "hash": "sha256-kD/+Obf+nxWdEe8+v9MlSGd0UwJG7DFmWPXBzIK6VLg=",
+        "cache": "force-cache"
+      },
+      {
         "virtualPath": "gastos-client.wasm",
-        "name": "gastos-client.tw0mc5i58i.wasm",
-        "hash": "sha256-Hc5O2favMMpeQjRaxvea/BZFqMFwMBF8yYtLd4HkxW0=",
+        "name": "gastos-client.ps301i33br.wasm",
+        "hash": "sha256-x9O3FgNj0qqg9rdHb1ysNymM6o+wRMcWJUI4hdJt7Ec=",
         "cache": "force-cache"
       }
     ],
     "pdb": [
       {
         "virtualPath": "gastos-client.pdb",
-        "name": "gastos-client.m3ctrc56i7.pdb",
-        "hash": "sha256-gl2HWm2hKTlMBJJVfYUQA2VdByI4fjgS3BdDFVvv7tg=",
+        "name": "gastos-client.yl3qe0zs0q.pdb",
+        "hash": "sha256-Om1gkTEIRpDUsc3nHLxvF9bVHgxKFQh6hao/0caBQ4E=",
         "cache": "force-cache"
+      }
+    ],
+    "libraryInitializers": [
+      {
+        "name": "_framework/Microsoft.DotNet.HotReload.WebAssembly.Browser.ezrdz523gr.lib.module.js"
+      }
+    ],
+    "modulesAfterConfigLoaded": [
+      {
+        "name": "../_framework/Microsoft.DotNet.HotReload.WebAssembly.Browser.ezrdz523gr.lib.module.js"
       }
     ]
   },
@@ -1265,7 +1281,6 @@ var e=!1;const t=async()=>WebAssembly.validate(new Uint8Array([0,97,115,109,1,0,
         "System.ComponentModel.TypeConverter.EnableUnsafeBinaryFormatterInDesigntimeLicenseContextSerialization": false,
         "System.ComponentModel.TypeDescriptor.IsComObjectDescriptorSupported": false,
         "System.Data.DataSet.XmlSerializationIsSupported": false,
-        "System.Diagnostics.Debugger.IsSupported": false,
         "System.Diagnostics.Metrics.Meter.IsSupported": false,
         "System.Diagnostics.Tracing.EventSource.IsSupported": false,
         "System.GC.Server": true,

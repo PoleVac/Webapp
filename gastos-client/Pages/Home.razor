@@ -138,6 +138,14 @@
 </main>
 
 @code {
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await JS.InvokeVoidAsync("gastosGoogle.inicializar");
+        }
+    }
+
     private Gasto nuevoGasto = new()
     {
         Fecha = DateTime.Today,
