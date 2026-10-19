@@ -207,9 +207,6 @@ C:\Users\alepulid\OneDrive - Metso\Documents\GitHub\Webapp\gastos-client\bin\Deb
 C:\Users\alepulid\OneDrive - Metso\Documents\GitHub\Webapp\gastos-client\bin\Debug\net10.0\wwwroot\_framework\icudt_EFIGS.tptq2av103.dat
 C:\Users\alepulid\OneDrive - Metso\Documents\GitHub\Webapp\gastos-client\bin\Debug\net10.0\wwwroot\_framework\icudt_no_CJK.lfu7j35m59.dat
 C:\Users\alepulid\OneDrive - Metso\Documents\GitHub\Webapp\gastos-client\bin\Debug\net10.0\wwwroot\_framework\Microsoft.DotNet.HotReload.WebAssembly.Browser.kbdorjwhqd.wasm
-C:\Users\alepulid\OneDrive - Metso\Documents\GitHub\Webapp\gastos-client\bin\Debug\net10.0\wwwroot\_framework\gastos-client.v1go8z74lt.wasm
-C:\Users\alepulid\OneDrive - Metso\Documents\GitHub\Webapp\gastos-client\bin\Debug\net10.0\wwwroot\_framework\gastos-client.t9qzls95ty.pdb
-C:\Users\alepulid\OneDrive - Metso\Documents\GitHub\Webapp\gastos-client\bin\Debug\net10.0\wwwroot\_framework\dotnet.kve2229qun.js
 C:\Users\alepulid\OneDrive - Metso\Documents\GitHub\Webapp\gastos-client\bin\Debug\net10.0\wwwroot\_framework\blazor.webassembly.w3qd1tpl0e.js.gz
 C:\Users\alepulid\OneDrive - Metso\Documents\GitHub\Webapp\gastos-client\bin\Debug\net10.0\wwwroot\_framework\Microsoft.AspNetCore.Authorization.x3ukblv1ve.wasm.gz
 C:\Users\alepulid\OneDrive - Metso\Documents\GitHub\Webapp\gastos-client\bin\Debug\net10.0\wwwroot\_framework\Microsoft.AspNetCore.Components.skngrc35t8.wasm.gz
@@ -418,9 +415,6 @@ C:\Users\alepulid\OneDrive - Metso\Documents\GitHub\Webapp\gastos-client\bin\Deb
 C:\Users\alepulid\OneDrive - Metso\Documents\GitHub\Webapp\gastos-client\bin\Debug\net10.0\wwwroot\_framework\icudt_EFIGS.tptq2av103.dat.gz
 C:\Users\alepulid\OneDrive - Metso\Documents\GitHub\Webapp\gastos-client\bin\Debug\net10.0\wwwroot\_framework\icudt_no_CJK.lfu7j35m59.dat.gz
 C:\Users\alepulid\OneDrive - Metso\Documents\GitHub\Webapp\gastos-client\bin\Debug\net10.0\wwwroot\_framework\Microsoft.DotNet.HotReload.WebAssembly.Browser.kbdorjwhqd.wasm.gz
-C:\Users\alepulid\OneDrive - Metso\Documents\GitHub\Webapp\gastos-client\bin\Debug\net10.0\wwwroot\_framework\gastos-client.v1go8z74lt.wasm.gz
-C:\Users\alepulid\OneDrive - Metso\Documents\GitHub\Webapp\gastos-client\bin\Debug\net10.0\wwwroot\_framework\gastos-client.t9qzls95ty.pdb.gz
-C:\Users\alepulid\OneDrive - Metso\Documents\GitHub\Webapp\gastos-client\bin\Debug\net10.0\wwwroot\_framework\dotnet.kve2229qun.js.gz
 C:\Users\alepulid\OneDrive - Metso\Documents\GitHub\Webapp\gastos-client\bin\Debug\net10.0\gastos-client.staticwebassets.runtime.json
 C:\Users\alepulid\OneDrive - Metso\Documents\GitHub\Webapp\gastos-client\bin\Debug\net10.0\gastos-client.staticwebassets.endpoints.json
 C:\Users\alepulid\OneDrive - Metso\Documents\GitHub\Webapp\gastos-client\bin\Debug\net10.0\gastos-client.dll
@@ -1112,10 +1106,6 @@ C:\Users\alepulid\OneDrive - Metso\Documents\GitHub\Webapp\gastos-client\obj\Deb
 C:\Users\alepulid\OneDrive - Metso\Documents\GitHub\Webapp\gastos-client\obj\Debug\net10.0\compressed\s36egevpdj-{0}-tptq2av103-tptq2av103.gz
 C:\Users\alepulid\OneDrive - Metso\Documents\GitHub\Webapp\gastos-client\obj\Debug\net10.0\compressed\cctny8fedg-{0}-lfu7j35m59-lfu7j35m59.gz
 C:\Users\alepulid\OneDrive - Metso\Documents\GitHub\Webapp\gastos-client\obj\Debug\net10.0\compressed\d6t4zkc3ju-{0}-kbdorjwhqd-kbdorjwhqd.gz
-C:\Users\alepulid\OneDrive - Metso\Documents\GitHub\Webapp\gastos-client\obj\Debug\net10.0\compressed\brhtedo19x-{0}-v1go8z74lt-v1go8z74lt.gz
-C:\Users\alepulid\OneDrive - Metso\Documents\GitHub\Webapp\gastos-client\obj\Debug\net10.0\compressed\35mb5r40q0-{0}-t9qzls95ty-t9qzls95ty.gz
-C:\Users\alepulid\OneDrive - Metso\Documents\GitHub\Webapp\gastos-client\obj\Debug\net10.0\compressed\uiogjc8i6d-{0}-kve2229qun-kve2229qun.gz
-C:\Users\alepulid\OneDrive - Metso\Documents\GitHub\Webapp\gastos-client\obj\Debug\net10.0\compressed\j0sjbe8m33-{0}-0xuxpvv0ap-0xuxpvv0ap.gz
 C:\Users\alepulid\OneDrive - Metso\Documents\GitHub\Webapp\gastos-client\obj\Debug\net10.0\staticwebassets.build.json
 C:\Users\alepulid\OneDrive - Metso\Documents\GitHub\Webapp\gastos-client\obj\Debug\net10.0\staticwebassets.build.json.cache
 C:\Users\alepulid\OneDrive - Metso\Documents\GitHub\Webapp\gastos-client\obj\Debug\net10.0\staticwebassets.development.json
@@ -1126,3 +1116,14 @@ C:\Users\alepulid\OneDrive - Metso\Documents\GitHub\Webapp\gastos-client\obj\Deb
 C:\Users\alepulid\OneDrive - Metso\Documents\GitHub\Webapp\gastos-client\obj\Debug\net10.0\refint\gastos-client.dll
 C:\Users\alepulid\OneDrive - Metso\Documents\GitHub\Webapp\gastos-client\obj\Debug\net10.0\gastos-client.pdb
 C:\Users\alepulid\OneDrive - Metso\Documents\GitHub\Webapp\gastos-client\obj\Debug\net10.0\ref\gastos-client.dll
+C:\Users\alepulid\OneDrive - Metso\Documents\GitHub\Webapp\gastos-client\bin\Debug\net10.0\wwwroot\_framework\gastos-client.lvwy0e28m8.wasm
+C:\Users\alepulid\OneDrive - Metso\Documents\GitHub\Webapp\gastos-client\bin\Debug\net10.0\wwwroot\_framework\gastos-client.uqlhqzbv45.pdb
+C:\Users\alepulid\OneDrive - Metso\Documents\GitHub\Webapp\gastos-client\bin\Debug\net10.0\wwwroot\_framework\dotnet.lqe2qzj4ap.js
+C:\Users\alepulid\OneDrive - Metso\Documents\GitHub\Webapp\gastos-client\bin\Debug\net10.0\wwwroot\_framework\gastos-client.lvwy0e28m8.wasm.gz
+C:\Users\alepulid\OneDrive - Metso\Documents\GitHub\Webapp\gastos-client\bin\Debug\net10.0\wwwroot\_framework\gastos-client.uqlhqzbv45.pdb.gz
+C:\Users\alepulid\OneDrive - Metso\Documents\GitHub\Webapp\gastos-client\bin\Debug\net10.0\wwwroot\_framework\dotnet.lqe2qzj4ap.js.gz
+C:\Users\alepulid\OneDrive - Metso\Documents\GitHub\Webapp\gastos-client\obj\Debug\net10.0\compressed\9umh0uvfwg-{0}-0bynbrnjwp-0bynbrnjwp.gz
+C:\Users\alepulid\OneDrive - Metso\Documents\GitHub\Webapp\gastos-client\obj\Debug\net10.0\compressed\brhtedo19x-{0}-lvwy0e28m8-lvwy0e28m8.gz
+C:\Users\alepulid\OneDrive - Metso\Documents\GitHub\Webapp\gastos-client\obj\Debug\net10.0\compressed\35mb5r40q0-{0}-uqlhqzbv45-uqlhqzbv45.gz
+C:\Users\alepulid\OneDrive - Metso\Documents\GitHub\Webapp\gastos-client\obj\Debug\net10.0\compressed\uiogjc8i6d-{0}-lqe2qzj4ap-lqe2qzj4ap.gz
+C:\Users\alepulid\OneDrive - Metso\Documents\GitHub\Webapp\gastos-client\obj\Debug\net10.0\compressed\j0sjbe8m33-{0}-5envp4bc01-5envp4bc01.gz

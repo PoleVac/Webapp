@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>gastos-client</title>
     <base href="/" />
-    <link href="_framework/dotnet.vp6c1yz5yb.js" rel="preload" as="script" fetchpriority="high" crossorigin="anonymous" integrity="sha256-A4ZQvNCxhBACsRAN6A8qEGFyZLJRrJhurDEm+RorBqc=" />
+    <link href="_framework/dotnet.okgy2b9ytu.js" rel="preload" as="script" fetchpriority="high" crossorigin="anonymous" integrity="sha256-mBke3YlelcebxemDzeQFb8/TCbJBrsAZTR7BaP64XIE=" />
     <link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="css/app.css" />
     <link rel="icon" type="image/png" href="favicon.png" />
@@ -15,27 +15,26 @@
   "imports": {
     "./_framework/blazor.webassembly.js": "./_framework/blazor.webassembly.w3qd1tpl0e.js",
     "./_framework/dotnet.native.js": "./_framework/dotnet.native.q38003gvqi.js",
-    "./_framework/dotnet.runtime.js": "./_framework/dotnet.runtime.azrfhwb804.js",
-    "./_framework/dotnet.js": "./_framework/dotnet.vp6c1yz5yb.js"
+    "./_framework/dotnet.js": "./_framework/dotnet.okgy2b9ytu.js",
+    "./_framework/dotnet.runtime.js": "./_framework/dotnet.runtime.azrfhwb804.js"
   },
   "scopes": {},
   "integrity": {
     "./_framework/blazor.webassembly.js": "sha256-lDXsDYFgm62F+YUvxES7IOTCXYpiHpU3uR45YdC6mq4=",
     "./_framework/blazor.webassembly.w3qd1tpl0e.js": "sha256-lDXsDYFgm62F+YUvxES7IOTCXYpiHpU3uR45YdC6mq4=",
-    "./_framework/dotnet.js": "sha256-A4ZQvNCxhBACsRAN6A8qEGFyZLJRrJhurDEm+RorBqc=",
+    "./_framework/dotnet.js": "sha256-mBke3YlelcebxemDzeQFb8/TCbJBrsAZTR7BaP64XIE=",
     "./_framework/dotnet.native.js": "sha256-BtUMevCTTpUK4I5d68LtBZlJdGIQC7fk+oNnjyzuFR4=",
     "./_framework/dotnet.native.q38003gvqi.js": "sha256-BtUMevCTTpUK4I5d68LtBZlJdGIQC7fk+oNnjyzuFR4=",
+    "./_framework/dotnet.okgy2b9ytu.js": "sha256-mBke3YlelcebxemDzeQFb8/TCbJBrsAZTR7BaP64XIE=",
     "./_framework/dotnet.runtime.azrfhwb804.js": "sha256-muN076HgyOCoAaid7zD7a2/GN7aQ7tmK/BzdnKgw78g=",
-    "./_framework/dotnet.runtime.js": "sha256-muN076HgyOCoAaid7zD7a2/GN7aQ7tmK/BzdnKgw78g=",
-    "./_framework/dotnet.vp6c1yz5yb.js": "sha256-A4ZQvNCxhBACsRAN6A8qEGFyZLJRrJhurDEm+RorBqc="
+    "./_framework/dotnet.runtime.js": "sha256-muN076HgyOCoAaid7zD7a2/GN7aQ7tmK/BzdnKgw78g="
   }
 }</script>
     <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 
 <body>
-    <script src="https://accounts.google.com/gsi/client"></script>
-    <script src="js/google-login.js"></script>
+
     <div id="app">
         <svg class="loading-progress">
             <circle r="40%" cx="50%" cy="50%" />
@@ -50,7 +49,9 @@
         <span class="dismiss">🗙</span>
     </div>
     <script src="_framework/blazor.webassembly.w3qd1tpl0e.js"></script>
-
+    <script src="https://accounts.google.com/gsi/client"></script>
+    <script src="js/google-login.js"></script>
+    <script src="js/gastos-api.js"></script>
 </body>
 
 </html>
