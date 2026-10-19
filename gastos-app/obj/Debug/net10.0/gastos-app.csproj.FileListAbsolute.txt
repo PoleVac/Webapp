@@ -83,3 +83,4 @@ C:\Users\alepulid\OneDrive - Metso\Documents\GitHub\Webapp\gastos-app\obj\Debug\
 C:\Users\alepulid\OneDrive - Metso\Documents\GitHub\Webapp\gastos-app\obj\Debug\net10.0\gastos-app.pdb
 C:\Users\alepulid\OneDrive - Metso\Documents\GitHub\Webapp\gastos-app\obj\Debug\net10.0\gastos-app.genruntimeconfig.cache
 C:\Users\alepulid\OneDrive - Metso\Documents\GitHub\Webapp\gastos-app\obj\Debug\net10.0\ref\gastos-app.dll
+C:\Users\alepulid\OneDrive - Metso\Documents\GitHub\Webapp\gastos-app\obj\Debug\net10.0\gastos-app.sourcelink.json
