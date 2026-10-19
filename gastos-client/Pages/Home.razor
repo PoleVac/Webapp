@@ -3,9 +3,14 @@
 @using System.Text.Json.Serialization
 @inject IJSRuntime JS
 
-<PageTitle>Gastos compartidos</PageTitle>
+<PageTitle>Registro de gastos</PageTitle>
 
 <header class="login-header">
+    <div style="
+        FLEX: auto;
+        ">
+        <h1>Registro de gastos</h1>
+    </div>
     <div id="google-button" class="login-action"></div>
 
     <button id="logout-button" class="logout-button" style="display:none" @onclick="CerrarSesion">
@@ -14,7 +19,6 @@
 </header>
 
 <main class="home-content">
-    <h1>Gastos compartidos</h1>
     <p>Inicia sesión para consultar y registrar gastos.</p>
 
     <p id="login-status" role="status">
@@ -62,15 +66,18 @@
 
                     <div class="form-field">
                         <label for="pagado-por">Pagado por</label>
-                        <input id="pagado-por" @bind="nuevoGasto.PagadoPor" maxlength="150"
-                               placeholder="Nombre o correo" required />
+                        <select id="pagado-por" @bind="nuevoGasto.PagadoPor" required>
+                            <option value="" disabled selected hidden>Selecciona quién pagó</option>
+                            <option>Alejandro</option>
+                            <option>Dayanna</option>
+                        </select>
                     </div>
 
                     <div class="form-field">
                         <label for="tipo">Tipo</label>
                         <select id="tipo" @bind="nuevoGasto.Tipo" required>
                             <option value="Compartido">Compartido</option>
-                            <option value="Personal">Personal</option>
+                            <option value="Personal" selected>Personal</option>
                         </select>
                     </div>
 
