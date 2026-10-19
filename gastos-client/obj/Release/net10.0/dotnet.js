@@ -5,7 +5,7 @@ var e=!1;const t=async()=>WebAssembly.validate(new Uint8Array([0,97,115,109,1,0,
   "mainAssemblyName": "gastos-client",
   "applicationEnvironment": "Development",
   "resources": {
-    "hash": "sha256-iBfKS6ihQEFsj5d4nq1gpWnEcTkWtoYtnxKNLjRMtxw=",
+    "hash": "sha256-bvh6DJT9fH7icFalC7Y1nTezjArdmdpaYScK1TiJR+s=",
     "jsModuleNative": [
       {
         "name": "dotnet.native.q38003gvqi.js"
@@ -1236,16 +1236,16 @@ var e=!1;const t=async()=>WebAssembly.validate(new Uint8Array([0,97,115,109,1,0,
       },
       {
         "virtualPath": "gastos-client.wasm",
-        "name": "gastos-client.pytvg5dcdo.wasm",
-        "hash": "sha256-cb2BKucRN1pH1X9SGTW/NfvMMXPtDWV/RusMuNU7w4s=",
+        "name": "gastos-client.dwn8zrgiv5.wasm",
+        "hash": "sha256-AwaluJfqsz/LXFbeD/CMlEvIQD1pwly9Q14KmYttkN0=",
         "cache": "force-cache"
       }
     ],
     "pdb": [
       {
         "virtualPath": "gastos-client.pdb",
-        "name": "gastos-client.6er0jobqr7.pdb",
-        "hash": "sha256-UvJZfMv+c+SVk3dNNhbXfxAsZi28TNVrYSGV/e0r4vM=",
+        "name": "gastos-client.a7s254flk8.pdb",
+        "hash": "sha256-uh8ygKj/yJ+J/EnEVrYsEcPxvw3+KKLVE3PT0goKS1E=",
         "cache": "force-cache"
       }
     ]
