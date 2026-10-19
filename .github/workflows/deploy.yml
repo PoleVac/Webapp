@@ -34,15 +34,15 @@ jobs:
           dotnet-version: 10.0.x
 
 
+      
       - name: Publish Blazor
         run: |
-          dotnet clean gastos-client/gastos-client.csproj -c Release
           rm -rf gastos-client/bin gastos-client/obj release
           dotnet restore gastos-client/gastos-client.csproj
-          dotnet publish gastos-client/gastos-client.csproj -c Release -o release
-          echo "=== Verificando identificadores del CSS ==="
+          dotnet publish gastos-client/gastos-client.csproj -c Release --no-restore -o release
+          echo "=== Identificadores en CSS publicado ==="
           grep -oE 'b-[a-z0-9]+' release/wwwroot/gastos-client.styles.css | sort -u
-          grep -oE 'b-[a-z0-9]+' release/wwwroot/index.html | sort -u
+
 
 
       - name: Configure GitHub Pages base path
