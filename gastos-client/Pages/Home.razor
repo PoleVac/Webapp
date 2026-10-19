@@ -1,49 +1,276 @@
-﻿
-@page "/"
-
+﻿@page "/"
+@using System.Text.Json
+@using System.Text.Json.Serialization
 @inject IJSRuntime JS
 
-<PageTitle>Gastos</PageTitle>
+<PageTitle>Gastos compartidos</PageTitle>
 
 <header class="login-header">
     <div id="google-button" class="login-action"></div>
 
-    <button id="logout-button"
-            class="login-action logout-button"
-            style="display:none"
-            @onclick="CerrarSesion">
+    <button id="logout-button" class="logout-button" style="display:none" @onclick="CerrarSesion">
         Cerrar sesión
     </button>
 </header>
 
 <main class="home-content">
     <h1>Gastos compartidos</h1>
-    <p>Inicia sesión con una de las cuentas autorizadas.</p>
+    <p>Inicia sesión para consultar y registrar gastos.</p>
 
     <p id="login-status" role="status">
         Esperando inicio de sesión...
     </p>
 
     <div id="gastos-panel" style="display:none">
-        <h2>¡Has iniciado sesión!</h2>
-        <p>
-            El siguiente paso será conectar esta sesión con Gastos API
-            para consultar y registrar gastos.
-        </p>
+
+        <section class="expense-card">
+            <h2>Registrar gasto</h2>
+
+            <form @onsubmit="GuardarGasto" @onsubmit:preventDefault>
+                <div class="form-grid">
+
+                    <div class="form-field">
+                        <label for="fecha">Fecha</label>
+                        <input id="fecha" type="date" @bind="nuevoGasto.Fecha" required />
+                    </div>
+
+                    <div class="form-field">
+                        <label for="descripcion">Descripción</label>
+                        <input id="descripcion" @bind="nuevoGasto.Descripcion" maxlength="200"
+                               placeholder="Ej. Compra del supermercado" required />
+                    </div>
+
+                    <div class="form-field">
+                        <label for="categoria">Categoría</label>
+                        <select id="categoria" @bind="nuevoGasto.Categoria" required>
+                            <option value="">Selecciona una categoría</option>
+                            <option>Alimentación</option>
+                            <option>Vivienda</option>
+                            <option>Servicios</option>
+                            <option>Transporte</option>
+                            <option>Ocio</option>
+                            <option>Compras</option>
+                            <option>Salud</option>
+                            <option>Otros</option>
+                        </select>
+                    </div>
+
+                    <div class="form-field">
+                        <label for="importe">Importe (S/)</label>
+                        <input id="importe" type="number" @bind="nuevoGasto.Importe" min="0.01" step="0.01" required />
+                    </div>
+
+                    <div class="form-field">
+                        <label for="pagado-por">Pagado por</label>
+                        <input id="pagado-por" @bind="nuevoGasto.PagadoPor" maxlength="150"
+                               placeholder="Nombre o correo" required />
+                    </div>
+
+                    <div class="form-field">
+                        <label for="tipo">Tipo</label>
+                        <select id="tipo" @bind="nuevoGasto.Tipo" required>
+                            <option value="Compartido">Compartido</option>
+                            <option value="Personal">Personal</option>
+                        </select>
+                    </div>
+
+                </div>
+
+                <button type="submit" disabled="@guardando">
+                    @(guardando ? "Guardando..." : "Guardar gasto")
+                </button>
+            </form>
+        </section>
+
+        @if (!string.IsNullOrWhiteSpace(mensaje))
+        {
+            <p role="status" class="status-message">@mensaje</p>
+        }
+
+        <section class="expense-card">
+            <div class="table-heading">
+                <h2>Gastos registrados</h2>
+                <button type="button" @onclick="CargarGastos" disabled="@cargando">
+                    @(cargando ? "Cargando..." : "Actualizar")
+                </button>
+            </div>
+
+            @if (cargando)
+            {
+                <p>Cargando gastos...</p>
+            }
+            else if (gastos.Count == 0)
+            {
+                <p>Aún no hay gastos para mostrar. Pulsa Actualizar.</p>
+            }
+            else
+            {
+                <div class="table-scroll">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Fecha</th>
+                                <th>Descripción</th>
+                                <th>Categoría</th>
+                                <th>Importe</th>
+                                <th>Pagado por</th>
+                                <th>Tipo</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var gasto in gastos)
+                            {
+                                <tr @key="gasto.Id">
+                                    <td>@gasto.Fecha</td>
+                                    <td>@gasto.Descripcion</td>
+                                    <td>@gasto.Categoria</td>
+                                    <td>S/ @gasto.Importe.ToString("N2")</td>
+                                    <td>@gasto.PagadoPor</td>
+                                    <td>@gasto.Tipo</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+        </section>
     </div>
 </main>
 
 @code {
-    protected override async Task OnAfterRenderAsync(bool firstRender)
+    private Gasto nuevoGasto = new()
     {
-        if (firstRender)
+        Fecha = DateTime.Today,
+        Tipo = "Compartido"
+    };
+
+    private List<Gasto> gastos = new();
+    private bool guardando;
+    private bool cargando;
+    private string mensaje = "";
+
+    private async Task GuardarGasto()
+    {
+        if (guardando)
+            return;
+
+        guardando = true;
+        mensaje = "";
+
+        try
         {
-            await JS.InvokeVoidAsync("gastosGoogle.inicializar");
+            var datos = new
+            {
+                fecha = nuevoGasto.Fecha.ToString("yyyy-MM-dd"),
+                descripcion = nuevoGasto.Descripcion.Trim(),
+                categoria = nuevoGasto.Categoria,
+                importe = nuevoGasto.Importe,
+                pagado_por = nuevoGasto.PagadoPor.Trim(),
+                tipo = nuevoGasto.Tipo
+            };
+
+            await JS.InvokeAsync<JsonElement>(
+                "gastosApi.agregar", datos);
+
+            mensaje = "Gasto guardado correctamente.";
+
+            nuevoGasto = new Gasto
+            {
+                Fecha = DateTime.Today,
+                Tipo = "Compartido"
+            };
+
+            await CargarGastos();
+        }
+        catch (Exception ex)
+        {
+            mensaje = $"No se pudo guardar el gasto: {ex.Message}";
+        }
+        finally
+        {
+            guardando = false;
+        }
+    }
+
+    private async Task CargarGastos()
+    {
+        if (cargando)
+            return;
+
+        cargando = true;
+        mensaje = "";
+
+        try
+        {
+            var respuesta = await JS.InvokeAsync<JsonElement>(
+                "gastosApi.listar");
+
+            JsonElement filas = respuesta;
+
+            if (respuesta.ValueKind == JsonValueKind.Object)
+            {
+                if (respuesta.TryGetProperty("ok", out var ok) &&
+                    ok.ValueKind == JsonValueKind.False)
+                {
+                    throw new Exception("La API rechazó la consulta.");
+                }
+
+                bool encontrada =
+                    respuesta.TryGetProperty("gastos", out filas) ||
+                    respuesta.TryGetProperty("data", out filas) ||
+                    respuesta.TryGetProperty("registros", out filas);
+
+                if (!encontrada)
+                    throw new Exception(
+                        "La respuesta de la API no contiene la lista de gastos.");
+            }
+
+            if (filas.ValueKind != JsonValueKind.Array)
+                throw new Exception("La lista recibida no es un array.");
+
+            gastos = JsonSerializer.Deserialize<List<Gasto>>(
+                filas.GetRawText(),
+                new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true
+                }) ?? new List<Gasto>();
+        }
+        catch (Exception ex)
+        {
+            mensaje = $"No se pudieron cargar los gastos: {ex.Message}";
+        }
+        finally
+        {
+            cargando = false;
         }
     }
 
     private async Task CerrarSesion()
     {
         await JS.InvokeVoidAsync("gastosGoogle.cerrarSesion");
+    }
+
+    public class Gasto
+    {
+        [JsonPropertyName("id")]
+        public string Id { get; set; } = "";
+
+        [JsonPropertyName("fecha")]
+        public DateTime Fecha { get; set; } = DateTime.Today;
+
+        [JsonPropertyName("descripcion")]
+        public string Descripcion { get; set; } = "";
+
+        [JsonPropertyName("categoria")]
+        public string Categoria { get; set; } = "";
+
+        [JsonPropertyName("importe")]
+        public decimal Importe { get; set; }
+
+        [JsonPropertyName("pagado_por")]
+        public string PagadoPor { get; set; } = "";
+
+        [JsonPropertyName("tipo")]
+        public string Tipo { get; set; } = "";
     }
 }
