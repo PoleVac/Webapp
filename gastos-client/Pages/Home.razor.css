@@ -1,0 +1,48 @@
+
+.login-header {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 20px 32px;
+    min-height: 80px;
+}
+
+.login-action {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.logout-button {
+    border: none;
+    border-radius: 8px;
+    padding: 10px 16px;
+    background-color: #212529;
+    color: white;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.logout-button:hover {
+    background-color: #343a40;
+}
+
+.home-content {
+    padding: 24px 32px;
+}
+
+@media (max-width: 640px) {
+    .login-header {
+        justify-content: center;
+        padding: 20px 12px;
+    }
+
+    .home-content {
+        padding: 20px 16px;
+        text-align: center;
+    }
+
+    .login-action {
+        justify-content: center;
+    }
+}

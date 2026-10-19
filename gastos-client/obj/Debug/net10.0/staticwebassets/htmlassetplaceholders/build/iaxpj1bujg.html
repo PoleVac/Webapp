@@ -5,8 +5,8 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>gastos-client</title>
-    <base href="/" />
-    <link href="_framework/dotnet.lqe2qzj4ap.js" rel="preload" as="script" fetchpriority="high" crossorigin="anonymous" integrity="sha256-41I6o16waZTQSM2Ziddr7t9i+JLJWtoAuDf7jea0YHQ=" />
+    <base href="/Webapp/" />
+    <link href="_framework/dotnet.11csjlbf60.js" rel="preload" as="script" fetchpriority="high" crossorigin="anonymous" integrity="sha256-G/2T6VdtLF2EQLQ3was0p75aFKuX67BQCxYP7+UJsAA=" />
     <link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="css/app.css" />
     <link rel="icon" type="image/png" href="favicon.png" />
@@ -15,9 +15,10 @@
   "imports": {
     "./_framework/Microsoft.DotNet.HotReload.WebAssembly.Browser.lib.module.js": "./_framework/Microsoft.DotNet.HotReload.WebAssembly.Browser.ezrdz523gr.lib.module.js",
     "./_framework/blazor.webassembly.js": "./_framework/blazor.webassembly.w3qd1tpl0e.js",
-    "./_framework/dotnet.js": "./_framework/dotnet.lqe2qzj4ap.js",
+    "./_framework/dotnet.js": "./_framework/dotnet.11csjlbf60.js",
     "./_framework/dotnet.native.js": "./_framework/dotnet.native.q38003gvqi.js",
     "./_framework/dotnet.runtime.js": "./_framework/dotnet.runtime.azrfhwb804.js",
+    "./js/gastos-api.js": "./js/gastos-api.b6djv4ec9q.js",
     "./js/google-login.js": "./js/google-login.0bynbrnjwp.js",
     "./lib/bootstrap/dist/js/bootstrap.js": "./lib/bootstrap/dist/js/bootstrap.bmwffbm2mu.js",
     "./lib/bootstrap/dist/js/bootstrap.bundle.min.js": "./lib/bootstrap/dist/js/bootstrap.bundle.min.493y06b0oq.js",
@@ -32,12 +33,14 @@
     "./_framework/Microsoft.DotNet.HotReload.WebAssembly.Browser.lib.module.js": "sha256-6uV0NjpPwFFRsf7cXNlSmekq8hPbgxe9oP4kmVJAFb8=",
     "./_framework/blazor.webassembly.js": "sha256-lDXsDYFgm62F+YUvxES7IOTCXYpiHpU3uR45YdC6mq4=",
     "./_framework/blazor.webassembly.w3qd1tpl0e.js": "sha256-lDXsDYFgm62F+YUvxES7IOTCXYpiHpU3uR45YdC6mq4=",
-    "./_framework/dotnet.js": "sha256-41I6o16waZTQSM2Ziddr7t9i+JLJWtoAuDf7jea0YHQ=",
-    "./_framework/dotnet.lqe2qzj4ap.js": "sha256-41I6o16waZTQSM2Ziddr7t9i+JLJWtoAuDf7jea0YHQ=",
+    "./_framework/dotnet.11csjlbf60.js": "sha256-G/2T6VdtLF2EQLQ3was0p75aFKuX67BQCxYP7+UJsAA=",
+    "./_framework/dotnet.js": "sha256-G/2T6VdtLF2EQLQ3was0p75aFKuX67BQCxYP7+UJsAA=",
     "./_framework/dotnet.native.js": "sha256-BtUMevCTTpUK4I5d68LtBZlJdGIQC7fk+oNnjyzuFR4=",
     "./_framework/dotnet.native.q38003gvqi.js": "sha256-BtUMevCTTpUK4I5d68LtBZlJdGIQC7fk+oNnjyzuFR4=",
     "./_framework/dotnet.runtime.azrfhwb804.js": "sha256-muN076HgyOCoAaid7zD7a2/GN7aQ7tmK/BzdnKgw78g=",
     "./_framework/dotnet.runtime.js": "sha256-muN076HgyOCoAaid7zD7a2/GN7aQ7tmK/BzdnKgw78g=",
+    "./js/gastos-api.b6djv4ec9q.js": "sha256-jUf+uBAqibrhFa3RBSI+qA7TEoIRvBs2n4UOkp5KpNA=",
+    "./js/gastos-api.js": "sha256-jUf+uBAqibrhFa3RBSI+qA7TEoIRvBs2n4UOkp5KpNA=",
     "./js/google-login.0bynbrnjwp.js": "sha256-lIvogbab9ceiBwGuAHpx928n61uw37dcmeq4OlKHNhM=",
     "./js/google-login.js": "sha256-lIvogbab9ceiBwGuAHpx928n61uw37dcmeq4OlKHNhM=",
     "./lib/bootstrap/dist/js/bootstrap.bmwffbm2mu.js": "sha256-HVJ5zH7SetrDgeEbzGrx2ez4uK92gipAr3Df1CVnWMg=",
@@ -54,12 +57,10 @@
     "./lib/bootstrap/dist/js/bootstrap.min.js": "sha256-3gQJhtmj7YnV1fmtbVcnAV6eI4ws0Tr48bVZCThtCGQ="
   }
 }</script>
-    <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 
 <body>
-    <script src="https://accounts.google.com/gsi/client"></script>
-    <script src="js/google-login.js"></script>
+
     <div id="app">
         <svg class="loading-progress">
             <circle r="40%" cx="50%" cy="50%" />
@@ -74,7 +75,9 @@
         <span class="dismiss">🗙</span>
     </div>
     <script src="_framework/blazor.webassembly.w3qd1tpl0e.js"></script>
-
+    <script src="https://accounts.google.com/gsi/client"></script>
+    <script src="js/google-login.js"></script>
+    <script src="js/gastos-api.js"></script>
 </body>
 
 </html>

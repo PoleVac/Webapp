@@ -37,10 +37,6 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ291bnRlci5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/alepulid/OneDrive - Metso/Documents/GitHub/Webapp/gastos-client/Pages/Home.razor]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSG9tZS5yYXpvcg==
-build_metadata.AdditionalFiles.CssScope = 
-
 [C:/Users/alepulid/OneDrive - Metso/Documents/GitHub/Webapp/gastos-client/Pages/NotFound.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTm90Rm91bmQucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
@@ -60,3 +56,7 @@ build_metadata.AdditionalFiles.CssScope = b-uzw9lsk9gt
 [C:/Users/alepulid/OneDrive - Metso/Documents/GitHub/Webapp/gastos-client/Layout/NavMenu.razor]
 build_metadata.AdditionalFiles.TargetPath = TGF5b3V0XE5hdk1lbnUucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = b-g5l1oph5r0
+
+[C:/Users/alepulid/OneDrive - Metso/Documents/GitHub/Webapp/gastos-client/Pages/Home.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSG9tZS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-ycw8yug8c4

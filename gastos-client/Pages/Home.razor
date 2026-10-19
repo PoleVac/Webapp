@@ -1,29 +1,37 @@
-﻿@page "/"
+﻿
+@page "/"
 
 @inject IJSRuntime JS
 
 <PageTitle>Gastos</PageTitle>
 
-<h1>Gastos compartidos</h1>
-<p>Inicia sesión con una de las cuentas autorizadas.</p>
+<header class="login-header">
+    <div id="google-button" class="login-action"></div>
 
-<div id="google-button"></div>
+    <button id="logout-button"
+            class="login-action logout-button"
+            style="display:none"
+            @onclick="CerrarSesion">
+        Cerrar sesión
+    </button>
+</header>
 
-<p id="login-status" role="status">
-    Esperando inicio de sesión...
-</p>
+<main class="home-content">
+    <h1>Gastos compartidos</h1>
+    <p>Inicia sesión con una de las cuentas autorizadas.</p>
 
-<button id="logout-button"
-        style="display:none"
-        @onclick="CerrarSesion">
-    Cerrar sesión
-</button>
+    <p id="login-status" role="status">
+        Esperando inicio de sesión...
+    </p>
 
-<div id="gastos-panel" style="display:none">
-    <h2>¡Has iniciado sesión!</h2>
-    <p>El siguiente paso será conectar esta sesión con Gastos API
-       para consultar y registrar gastos.</p>
-</div>
+    <div id="gastos-panel" style="display:none">
+        <h2>¡Has iniciado sesión!</h2>
+        <p>
+            El siguiente paso será conectar esta sesión con Gastos API
+            para consultar y registrar gastos.
+        </p>
+    </div>
+</main>
 
 @code {
     protected override async Task OnAfterRenderAsync(bool firstRender)

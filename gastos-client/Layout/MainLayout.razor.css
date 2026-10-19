@@ -78,14 +78,4 @@ main {
         padding-left: 2rem !important;
         padding-right: 1.5rem !important;
     }
-
-    .sidebar {
-        outline: 4px solid red !important;
-        min-width: 250px;
-        min-height: 100px;
-    }
-
-    .page {
-        outline: 2px solid blue !important;
-    }
 }
