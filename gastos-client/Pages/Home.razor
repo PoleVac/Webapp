@@ -1,7 +1,40 @@
 ﻿@page "/"
+@inject IJSRuntime JS
 
-<PageTitle>Home</PageTitle>
+<PageTitle>Gastos</PageTitle>
 
-<h1>Hello, world!</h1>
+<h1>Gastos compartidos</h1>
+<p>Inicia sesión con una de las cuentas autorizadas.</p>
 
-Welcome to your new app.
+<div id="google-button"></div>
+
+<p id="login-status" role="status">
+    Esperando inicio de sesión...
+</p>
+
+<button id="logout-button"
+        style="display:none"
+        @onclick="CerrarSesion">
+    Cerrar sesión
+</button>
+
+<div id="gastos-panel" style="display:none">
+    <h2>¡Has iniciado sesión!</h2>
+    <p>El siguiente paso será conectar esta sesión con Gastos API
+       para consultar y registrar gastos.</p>
+</div>
+
+@code {
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await JS.InvokeVoidAsync("gastosGoogle.inicializar");
+        }
+    }
+
+    private async Task CerrarSesion()
+    {
+        await JS.InvokeVoidAsync("gastosGoogle.cerrarSesion");
+    }
+}

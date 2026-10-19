@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>gastos-client</title>
+    <base href="/" />
+    <link href="_framework/dotnet.9d2mj9xfs4.js" rel="preload" as="script" fetchpriority="high" crossorigin="anonymous" integrity="sha256-fTyJN6GYg/Fdqbbe3alUhspIdQIAr4K5BDqv2dMlV2c=" />
+    <link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/app.css" />
+    <link rel="icon" type="image/png" href="favicon.png" />
+    <link href="gastos-client.styles.css" rel="stylesheet" />
+    <script type="importmap">{
+  "imports": {
+    "./_framework/blazor.webassembly.js": "./_framework/blazor.webassembly.w3qd1tpl0e.js",
+    "./_framework/dotnet.js": "./_framework/dotnet.9d2mj9xfs4.js",
+    "./_framework/dotnet.native.js": "./_framework/dotnet.native.q38003gvqi.js",
+    "./_framework/dotnet.runtime.js": "./_framework/dotnet.runtime.azrfhwb804.js",
+    "./js/google-login.js": "./js/google-login.0bynbrnjwp.js",
+    "./lib/bootstrap/dist/js/bootstrap.js": "./lib/bootstrap/dist/js/bootstrap.bmwffbm2mu.js",
+    "./lib/bootstrap/dist/js/bootstrap.bundle.min.js": "./lib/bootstrap/dist/js/bootstrap.bundle.min.493y06b0oq.js",
+    "./lib/bootstrap/dist/js/bootstrap.bundle.js": "./lib/bootstrap/dist/js/bootstrap.bundle.sn6wsltou8.js",
+    "./lib/bootstrap/dist/js/bootstrap.esm.min.js": "./lib/bootstrap/dist/js/bootstrap.esm.min.jj8uyg4cgr.js",
+    "./lib/bootstrap/dist/js/bootstrap.esm.js": "./lib/bootstrap/dist/js/bootstrap.esm.ujjl5yqlah.js",
+    "./lib/bootstrap/dist/js/bootstrap.min.js": "./lib/bootstrap/dist/js/bootstrap.min.63fj8s7r0e.js"
+  },
+  "scopes": {},
+  "integrity": {
+    "./_framework/blazor.webassembly.js": "sha256-lDXsDYFgm62F+YUvxES7IOTCXYpiHpU3uR45YdC6mq4=",
+    "./_framework/blazor.webassembly.w3qd1tpl0e.js": "sha256-lDXsDYFgm62F+YUvxES7IOTCXYpiHpU3uR45YdC6mq4=",
+    "./_framework/dotnet.9d2mj9xfs4.js": "sha256-fTyJN6GYg/Fdqbbe3alUhspIdQIAr4K5BDqv2dMlV2c=",
+    "./_framework/dotnet.js": "sha256-fTyJN6GYg/Fdqbbe3alUhspIdQIAr4K5BDqv2dMlV2c=",
+    "./_framework/dotnet.native.js": "sha256-BtUMevCTTpUK4I5d68LtBZlJdGIQC7fk+oNnjyzuFR4=",
+    "./_framework/dotnet.native.q38003gvqi.js": "sha256-BtUMevCTTpUK4I5d68LtBZlJdGIQC7fk+oNnjyzuFR4=",
+    "./_framework/dotnet.runtime.azrfhwb804.js": "sha256-muN076HgyOCoAaid7zD7a2/GN7aQ7tmK/BzdnKgw78g=",
+    "./_framework/dotnet.runtime.js": "sha256-muN076HgyOCoAaid7zD7a2/GN7aQ7tmK/BzdnKgw78g=",
+    "./js/google-login.0bynbrnjwp.js": "sha256-lIvogbab9ceiBwGuAHpx928n61uw37dcmeq4OlKHNhM=",
+    "./js/google-login.js": "sha256-lIvogbab9ceiBwGuAHpx928n61uw37dcmeq4OlKHNhM=",
+    "./lib/bootstrap/dist/js/bootstrap.bmwffbm2mu.js": "sha256-HVJ5zH7SetrDgeEbzGrx2ez4uK92gipAr3Df1CVnWMg=",
+    "./lib/bootstrap/dist/js/bootstrap.bundle.js": "sha256-SDZDTYc0iSnfnj/UOvPsAcWWxANCKZdWIakqadw8zMk=",
+    "./lib/bootstrap/dist/js/bootstrap.bundle.min.493y06b0oq.js": "sha256-CDOy6cOibCWEdsRiZuaHf8dSGGJRYuBGC+mjoJimHGw=",
+    "./lib/bootstrap/dist/js/bootstrap.bundle.min.js": "sha256-CDOy6cOibCWEdsRiZuaHf8dSGGJRYuBGC+mjoJimHGw=",
+    "./lib/bootstrap/dist/js/bootstrap.bundle.sn6wsltou8.js": "sha256-SDZDTYc0iSnfnj/UOvPsAcWWxANCKZdWIakqadw8zMk=",
+    "./lib/bootstrap/dist/js/bootstrap.esm.js": "sha256-xtxl4tHXUhOE5HK9OODYC8jkR08wqMB+84jWsiHyS4s=",
+    "./lib/bootstrap/dist/js/bootstrap.esm.min.jj8uyg4cgr.js": "sha256-QZdFT1ZNdly4rmgUBtXmXFS9BU1FTa+sPe6h794sFRQ=",
+    "./lib/bootstrap/dist/js/bootstrap.esm.min.js": "sha256-QZdFT1ZNdly4rmgUBtXmXFS9BU1FTa+sPe6h794sFRQ=",
+    "./lib/bootstrap/dist/js/bootstrap.esm.ujjl5yqlah.js": "sha256-xtxl4tHXUhOE5HK9OODYC8jkR08wqMB+84jWsiHyS4s=",
+    "./lib/bootstrap/dist/js/bootstrap.js": "sha256-HVJ5zH7SetrDgeEbzGrx2ez4uK92gipAr3Df1CVnWMg=",
+    "./lib/bootstrap/dist/js/bootstrap.min.63fj8s7r0e.js": "sha256-3gQJhtmj7YnV1fmtbVcnAV6eI4ws0Tr48bVZCThtCGQ=",
+    "./lib/bootstrap/dist/js/bootstrap.min.js": "sha256-3gQJhtmj7YnV1fmtbVcnAV6eI4ws0Tr48bVZCThtCGQ="
+  }
+}</script>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+</head>
+
+<body>
+    <script src="https://accounts.google.com/gsi/client"></script>
+    <script src="js/google-login.js"></script>
+    <div id="app">
+        <svg class="loading-progress">
+            <circle r="40%" cx="50%" cy="50%" />
+            <circle r="40%" cx="50%" cy="50%" />
+        </svg>
+        <div class="loading-progress-text"></div>
+    </div>
+
+    <div id="blazor-error-ui">
+        An unhandled error has occurred.
+        <a href="." class="reload">Reload</a>
+        <span class="dismiss">🗙</span>
+    </div>
+    <script src="_framework/blazor.webassembly.w3qd1tpl0e.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,4 @@
+C:\Users\alepulid\OneDrive - Metso\Documents\GitHub\Webapp\gastos-client\bin\Release\net10.0\publish\wwwroot\index.html
+C:\Users\alepulid\OneDrive - Metso\Documents\GitHub\Webapp\gastos-client\bin\Release\net10.0\publish\gastos-client.runtimeconfig.json
+C:\Users\alepulid\OneDrive - Metso\Documents\GitHub\Webapp\gastos-client\bin\Release\net10.0\publish\dotnet.js
+C:\Users\alepulid\OneDrive - Metso\Documents\GitHub\Webapp\gastos-client\bin\Release\net10.0\publish\web.config
