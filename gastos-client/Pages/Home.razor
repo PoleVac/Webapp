@@ -118,7 +118,7 @@
 
                 </div>
 
-                <button type="submit" disabled="@guardando">
+                <button class="btn btn-outline-success" type="submit" disabled="@guardando">
                     @(guardando ? "Guardando..." : "Guardar gasto")
                 </button>
             </form>
@@ -132,7 +132,7 @@
         <section class="expense-card">
             <div class="table-heading">
                 <h2>Gastos registrados</h2>
-                <button type="button" @onclick="CargarGastos" disabled="@cargando">
+                <button class="btn btn-outline-info" type="button" @onclick="CargarGastos" disabled="@cargando">
                     @(cargando ? "Cargando..." : "Actualizar")
                 </button>
             </div>
