@@ -1,6 +1,8 @@
 ﻿@page "/"
 @using System.Text.Json
 @using System.Text.Json.Serialization
+@using System.Linq
+@using System.Collections.Generic
 @inject IJSRuntime JS
 
 <PageTitle>Registro de gastos</PageTitle>
@@ -48,11 +50,56 @@
                                placeholder="Ej. Compra del supermercado" required />
                     </div>
 
+                    
+                    <div class="form-field">
+                        <label>Categoría</label>
+
+                        <div class="categoria-selector">
+                            <button type="button" class="categoria-seleccionada"
+                                    @onclick="() => mostrarCategorias = !mostrarCategorias">
+                                @if (CategoriaActual is not null)
+                                {
+                                    @if (!string.IsNullOrWhiteSpace(CategoriaActual.Logo))
+                                    {
+                                        <img src="@CategoriaActual.Logo" alt="" class="categoria-logo" />
+                                    }
+
+                                    <span>@CategoriaActual.Nombre</span>
+                                }
+                                else
+                                {
+                                    <span>Seleccionar categoría</span>
+                                }
+
+                                <span class="categoria-flecha">⌄</span>
+                            </button>
+
+                            @if (mostrarCategorias)
+                            {
+                                <div class="categoria-opciones">
+                                    @foreach (var categoria in Categorias)
+                                    {
+                                        <button type="button" class="categoria-opcion"
+                                                @onclick="() => SeleccionarCategoria(categoria)">
+                                            @if (!string.IsNullOrWhiteSpace(categoria.Logo))
+                                            {
+                                                <img src="@categoria.Logo" alt="" class="categoria-logo" />
+                                            }
+
+                                            <span>@categoria.Nombre</span>
+                                        </button>
+                                    }
+                                </div>
+                            }
+                        </div>
+                    </div>
+
+
                     <div class="form-field">
                         <label for="categoria">Categoría</label>
                         <select id="categoria" @bind="nuevoGasto.Categoria" required>
                             <option value="" disabled selected hidden>Selecciona una categoría</option>
-                            <option><img class="icon" rel="icon" href="LEGO_logo.svg"/>Legos</option>
+                            <option><img class="icon" rel="icon" href="LEGO_logo.svg" />Legos</option>
                             <option>Ropa</option>
                             <option>Juegos</option>
                             <option>Mini</option>
@@ -62,7 +109,7 @@
                             <option>Restaurantes/Delivery</option>
                             <option>Ocio</option>
                             <option>Compras variadas</option>
-                            <option>Salud</option>  
+                            <option>Salud</option>
                             <option>Otros</option>
                         </select>
                     </div>
@@ -296,4 +343,40 @@
         [JsonPropertyName("tipo")]
         public string Tipo { get; set; } = "";
     }
+
+    
+    private bool mostrarCategorias = false;
+
+    private class CategoriaGasto
+    {
+        public string Nombre { get; set; } = "";
+        public string Logo { get; set; } = "";
+    }
+
+    private List<CategoriaGasto> Categorias = new()
+    {
+        new() { Nombre = "Ropa" },
+        new() { Nombre = "Restaurantes/Delivery" },
+        new() { Nombre = "Alimentación por conveniencia" },
+        new() { Nombre = "Alimentación mensual" },
+        new() { Nombre = "Transporte público" },
+        new() { Nombre = "Compras variadas" },
+        new() { Nombre = "Legos", Logo = "images/LEGO_logo.svg" },
+        new() { Nombre = "Mini" },
+        new() { Nombre = "Juegos" },
+        new() { Nombre = "Salud" },
+        new() { Nombre = "Otros" }
+    };
+
+
+
+    private CategoriaGasto? CategoriaActual =>
+        Categorias.FirstOrDefault(c => c.Nombre == nuevoGasto.Categoria);
+
+    private void SeleccionarCategoria(CategoriaGasto categoria)
+    {
+        nuevoGasto.Categoria = categoria.Nombre;
+        mostrarCategorias = false;
+    }
+
 }
