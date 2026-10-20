@@ -1,6 +1,6 @@
 
 const GASTOS_API_URL =
-  "https://script.google.com/macros/s/AKfycbylw-O8pZ6Clv46cK6OxJpOmd2D8nEoYjUila-XXPC28N_rKDdOn27D9d5K9kBmQuniTg/exec";
+  "https://script.google.com/macros/s/AKfycbyFFszv3HHC_z4Z9c37D5kHM-sn-t9AWXngnxh-J754nBKWSwSYGvtcKhU3gpGhdlpiTw/exec";
 
 window.gastosApi = {
   async solicitar(action, gasto = null) {
