@@ -1,0 +1,351 @@
+
+@page "/estadisticas"
+
+@using System.Globalization
+@using System.Text.Json
+@using System.Text.Json.Serialization
+@using System.Linq
+@using System.Collections.Generic
+@implements IAsyncDisposable
+@inject IJSRuntime JS
+
+<PageTitle>Estadísticas de gastos</PageTitle>
+
+<div class="estadisticas-page">
+    <div class="estadisticas-header">
+        <div>
+            <h1>Estadísticas</h1>
+            <p>Analiza los gastos mensuales de cada persona.</p>
+        </div>
+
+        <button class="actualizar-btn"
+                @onclick="CargarGastos"
+                disabled="@cargando">
+            @(cargando ? "Cargando..." : "Actualizar")
+        </button>
+    </div>
+
+    @if (!string.IsNullOrWhiteSpace(error))
+    {
+        <div class="estadisticas-error">@error</div>
+    }
+    else if (cargando)
+    {
+        <p>Cargando gastos...</p>
+    }
+    else if (gastos.Count == 0)
+    {
+        <p>No se encontraron gastos para mostrar.</p>
+    }
+    else
+    {
+        <div class="filtro-mes">
+            <label for="mes-estadisticas">Mes del gráfico circular:</label>
+            <select id="mes-estadisticas"
+                    @bind="mesSeleccionado"
+                    @bind:after="ActualizarGraficos">
+                @foreach (var mes in MesesDisponibles)
+                {
+                    <option value="@mes.Valor">@mes.Nombre</option>
+                }
+            </select>
+        </div>
+
+        @foreach (var persona in Personas.Select((nombre, indice) => new { nombre, indice }))
+        {
+            <section class="persona-estadisticas" @key="persona.nombre">
+                <h2>@persona.nombre</h2>
+
+                <div class="graficos-grid">
+                    <article class="grafico-card">
+                        <h3>Gastos por categoría</h3>
+                        <p class="grafico-subtitulo">@NombreMes(mesSeleccionado)</p>
+                        <div id="@($"pie-{persona.indice}")"
+                             class="grafico-echarts"></div>
+                    </article>
+
+                    <article class="grafico-card">
+                        <h3>Evolución mensual</h3>
+                        <p class="grafico-subtitulo">Importes mensuales en S/</p>
+                        <div id="@($"line-{persona.indice}")"
+                             class="grafico-echarts"></div>
+                    </article>
+                </div>
+            </section>
+        }
+    }
+</div>
+
+@code {
+    private List<GastoEstadistica> gastos = new();
+    private List<(string Valor, string Nombre)> MesesDisponibles = new();
+    private string mesSeleccionado = DateTime.Now.ToString("yyyy-MM");
+    private bool cargando;
+    private string error = "";
+    private bool scriptsListos;
+    private bool primeraCargaGraficos;
+
+    private List<string> Personas => gastos
+        .Select(g => (g.PagadoPor ?? "").Trim())
+        .Where(p => !string.IsNullOrWhiteSpace(p))
+        .Distinct(StringComparer.OrdinalIgnoreCase)
+        .OrderBy(p => p)
+        .ToList();
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            try
+            {
+                await JS.InvokeVoidAsync("estadisticasGastos.inicializar");
+                scriptsListos = true;
+                await CargarGastos();
+            }
+            catch (Exception ex)
+            {
+                error = $"No se pudieron inicializar los gráficos: {ex.Message}";
+                cargando = false;
+                StateHasChanged();
+            }
+        }
+        else if (scriptsListos && primeraCargaGraficos)
+        {
+            primeraCargaGraficos = false;
+            await ActualizarGraficos();
+        }
+    }
+
+    private async Task CargarGastos()
+    {
+        cargando = true;
+        error = "";
+        StateHasChanged();
+
+        try
+        {
+            var respuesta = await JS.InvokeAsync<JsonElement>(
+                "gastosApi.listar");
+
+            JsonElement filas = respuesta;
+
+            if (respuesta.ValueKind == JsonValueKind.Object)
+            {
+                if (respuesta.TryGetProperty("gastos", out var g))
+                    filas = g;
+                else if (respuesta.TryGetProperty("data", out var d))
+                    filas = d;
+                else if (respuesta.TryGetProperty("registros", out var r))
+                    filas = r;
+                else
+                    throw new Exception(
+                        "La respuesta de la API no contiene gastos, data ni registros.");
+            }
+
+            if (filas.ValueKind != JsonValueKind.Array)
+                throw new Exception("La lista de gastos no tiene el formato esperado.");
+
+            gastos = JsonSerializer.Deserialize<List<GastoEstadistica>>(
+                filas.GetRawText(),
+                new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true
+                }) ?? new();
+
+            gastos = gastos
+                .Where(g => !string.IsNullOrWhiteSpace(g.PagadoPor))
+                .ToList();
+
+            ActualizarMeses();
+
+            if (!MesesDisponibles.Any(m => m.Valor == mesSeleccionado))
+                mesSeleccionado = MesesDisponibles.FirstOrDefault().Valor
+                    ?? DateTime.Now.ToString("yyyy-MM");
+
+            primeraCargaGraficos = true;
+        }
+        catch (Exception ex)
+        {
+            error = $"Error al cargar las estadísticas: {ex.Message}";
+        }
+        finally
+        {
+            cargando = false;
+            StateHasChanged();
+        }
+    }
+
+    private void ActualizarMeses()
+    {
+        var meses = gastos
+            .Select(g => ObtenerFecha(g.Fecha))
+            .Where(f => f.HasValue)
+            .Select(f => f!.Value.ToString("yyyy-MM"))
+            .Distinct()
+            .ToHashSet();
+
+        meses.Add(DateTime.Now.ToString("yyyy-MM"));
+
+        MesesDisponibles = meses
+            .OrderByDescending(m => m)
+            .Select(m => (
+                Valor: m,
+                Nombre: NombreMes(m)
+            ))
+            .ToList();
+    }
+
+    private async Task ActualizarGraficos()
+    {
+        if (!scriptsListos || Personas.Count == 0)
+            return;
+
+        var datosPersonas = Personas.Select((persona, indice) =>
+        {
+            var gastosPersona = gastos
+                .Where(g => string.Equals(
+                    (g.PagadoPor ?? "").Trim(),
+                    persona,
+                    StringComparison.OrdinalIgnoreCase))
+                .ToList();
+
+            var gastosMes = gastosPersona
+                .Where(g => ObtenerFecha(g.Fecha)?.ToString("yyyy-MM") == mesSeleccionado)
+                .GroupBy(g => string.IsNullOrWhiteSpace(g.Categoria)
+                    ? "Sin categoría"
+                    : g.Categoria!.Trim())
+                .Select(grupo => new
+                {
+                    name = grupo.Key,
+                    value = grupo.Sum(g => g.Importe)
+                })
+                .Where(g => g.value != 0)
+                .ToList();
+
+            var meses = gastosPersona
+                .Select(g => ObtenerFecha(g.Fecha))
+                .Where(f => f.HasValue)
+                .Select(f => f!.Value.ToString("yyyy-MM"))
+                .Distinct()
+                .OrderBy(m => m)
+                .ToList();
+
+            var categorias = gastosPersona
+                .Select(g => string.IsNullOrWhiteSpace(g.Categoria)
+                    ? "Sin categoría"
+                    : g.Categoria!.Trim())
+                .Distinct()
+                .OrderBy(c => c)
+                .ToList();
+
+            var series = categorias.Select(categoria => new
+            {
+                name = categoria,
+                data = meses.Select(mes => gastosPersona
+                    .Where(g =>
+                        (string.IsNullOrWhiteSpace(g.Categoria)
+                            ? "Sin categoría"
+                            : g.Categoria!.Trim()) == categoria
+                        && ObtenerFecha(g.Fecha)?.ToString("yyyy-MM") == mes)
+                    .Sum(g => g.Importe))
+                    .ToList()
+            }).Cast<object>().ToList();
+
+            series.Add(new
+            {
+                name = "Total",
+                data = meses.Select(mes => gastosPersona
+                    .Where(g => ObtenerFecha(g.Fecha)?.ToString("yyyy-MM") == mes)
+                    .Sum(g => g.Importe))
+                    .ToList()
+            });
+
+            return new
+            {
+                index = indice,
+                nombre = persona,
+                pie = gastosMes,
+                meses,
+                series
+            };
+        }).ToList();
+
+        await JS.InvokeVoidAsync("estadisticasGastos.renderizar", new
+        {
+            personas = datosPersonas
+        });
+    }
+
+    private static DateTime? ObtenerFecha(string? texto)
+    {
+        if (string.IsNullOrWhiteSpace(texto))
+            return null;
+
+        if (DateTime.TryParse(
+            texto,
+            CultureInfo.InvariantCulture,
+            DateTimeStyles.AssumeLocal,
+            out var fecha))
+            return fecha;
+
+        string[] formatos =
+        {
+            "yyyy-MM-dd",
+            "yyyy-MM-dd'T'HH:mm:ss",
+            "dd/MM/yyyy",
+            "d/M/yyyy",
+            "MM/dd/yyyy"
+        };
+
+        if (DateTime.TryParseExact(
+            texto,
+            formatos,
+            CultureInfo.InvariantCulture,
+            DateTimeStyles.None,
+            out fecha))
+            return fecha;
+
+        return null;
+    }
+
+    private static string NombreMes(string valor)
+    {
+        if (!DateTime.TryParseExact(
+            valor + "-01",
+            "yyyy-MM-dd",
+            CultureInfo.InvariantCulture,
+            DateTimeStyles.None,
+            out var fecha))
+            return valor;
+
+        return fecha.ToString("MMMM yyyy", new CultureInfo("es-PE"));
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        if (scriptsListos)
+        {
+            try
+            {
+                await JS.InvokeVoidAsync("estadisticasGastos.destruir");
+            }
+            catch (JSDisconnectedException) { }
+            catch (InvalidOperationException) { }
+        }
+    }
+
+    private class GastoEstadistica
+    {
+        [JsonPropertyName("fecha")]
+        public string? Fecha { get; set; }
+
+        [JsonPropertyName("categoria")]
+        public string? Categoria { get; set; }
+
+        [JsonPropertyName("importe")]
+        public decimal Importe { get; set; }
+
+        [JsonPropertyName("pagado_por")]
+        public string? PagadoPor { get; set; }
+    }
+}
