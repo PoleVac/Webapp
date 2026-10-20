@@ -91,7 +91,7 @@
     color: #212529;
 }
 
-.expense-card button,
+/* .expense-card button,
 .home-content form button {
     padding: 10px 16px;
     border: none;
@@ -99,7 +99,7 @@
     background: #212529;
     color: white;
     cursor: pointer;
-}
+} */
 
 .expense-card button:disabled,
 .home-content form button:disabled {
