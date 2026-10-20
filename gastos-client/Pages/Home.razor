@@ -163,7 +163,7 @@
                             @foreach (var gasto in gastos)
                             {
                                 <tr @key="gasto.Id">
-                                    <td>@gasto.Fecha</td>
+                                    <td>@gasto.Fecha.ToString("yyyy-MM-dd")</td>
                                     <td>@gasto.Descripcion</td>
                                     <td>@gasto.Categoria</td>
                                     <td>S/ @gasto.Importe.ToString("N2")</td>
@@ -185,6 +185,7 @@
         if (firstRender)
         {
             await JS.InvokeVoidAsync("gastosGoogle.inicializar");
+            await CargarGastos();
         }
     }
 
