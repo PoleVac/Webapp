@@ -51,13 +51,18 @@
                     <div class="form-field">
                         <label for="categoria">Categoría</label>
                         <select id="categoria" @bind="nuevoGasto.Categoria" required>
-                            <option value="">Selecciona una categoría</option>
-                            <option>Alimentación</option>
-                            <option>Servicios</option>
-                            <option>Transporte</option>
+                            <option value="" disabled selected hidden>Selecciona una categoría</option>
+                            <option><img class="icon" rel="icon" href="\LEGO_logo.svg"/>Legos</option>
+                            <option>Ropa</option>
+                            <option>Juegos</option>
+                            <option>Mini</option>
+                            <option>Transporte Público</option>
+                            <option>Alimentación mensual</option>
+                            <option>Alimentación por conveniencia</option>
+                            <option>Restaurantes</option>
                             <option>Ocio</option>
-                            <option>Compras</option>
-                            <option>Salud</option>
+                            <option>Compras variadas</option>
+                            <option>Salud</option>  
                             <option>Otros</option>
                         </select>
                     </div>
