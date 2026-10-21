@@ -25,6 +25,8 @@ window.estadisticasGastos = (() => {
     function renderizar(datos) {
         inicializar();
 
+        window.datos = datos;
+
         for (const persona of datos.personas) {
             const pie = obtenerGrafico(`pie-${persona.index}`);
             const linea = obtenerGrafico(`line-${persona.index}`);
@@ -137,10 +139,7 @@ window.estadisticasGastos = (() => {
                                     Number(mes) - 1,
                                     Number(dia)
                                 );
-                                return fecha.toLocaleDateString("es-PE", {
-                                    month: "short",
-                                    year: "2-digit"
-                                });
+                                return fecha.toLocaleDateString("es-PE");
                             }
                         }
                     },
