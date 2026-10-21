@@ -59,6 +59,22 @@ window.estadisticasGastos = (() => {
                         },
                         data: persona.pie
                     }],
+                    dataZoom: [
+                        {
+                            type: 'slider',
+                            xAxisIndex: 'all',
+                            left: '5%',
+                            right: '5%',
+                            bottom: 20,
+                            height: 30,
+                            throttle: 120
+                        },
+                        {
+                            type: 'inside',
+                            xAxisIndex: 'all',
+                            throttle: 120
+                        }
+                    ],
                     graphic: persona.pie.length
                         ? []
                         : [{
@@ -136,6 +152,22 @@ window.estadisticasGastos = (() => {
                                 Number(valor).toLocaleString("es-PE")
                         }
                     },
+                    dataZoom: [
+                        {
+                            type: 'slider',
+                            xAxisIndex: 'all',
+                            left: '5%',
+                            right: '5%',
+                            bottom: 20,
+                            height: 30,
+                            throttle: 120
+                        },
+                        {
+                            type: 'inside',
+                            xAxisIndex: 'all',
+                            throttle: 120
+                        }
+                    ],
                     series
                 }, true);
             }
