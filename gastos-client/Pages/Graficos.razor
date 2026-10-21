@@ -79,7 +79,7 @@
 @code {
     private List<GastoEstadistica> gastos = new();
     private List<(string Valor, string Nombre)> MesesDisponibles = new();
-    private string mesSeleccionado = DateTime.Now.ToString("yyyy-MM");
+    private string mesSeleccionado = DateTime.Now.ToString("dd/MM/yyyy");
     private bool cargando;
     private string error = "";
     private bool scriptsListos;
@@ -160,7 +160,7 @@
 
             if (!MesesDisponibles.Any(m => m.Valor == mesSeleccionado))
                 mesSeleccionado = MesesDisponibles.FirstOrDefault().Valor
-                    ?? DateTime.Now.ToString("yyyy-MM");
+                    ?? DateTime.Now.ToString("dd/MM/yyyy");
 
             primeraCargaGraficos = true;
         }
@@ -180,11 +180,11 @@
         var meses = gastos
             .Select(g => ObtenerFecha(g.Fecha))
             .Where(f => f.HasValue)
-            .Select(f => f!.Value.ToString("yyyy-MM"))
+            .Select(f => f!.Value.ToString("dd/MM/yyyy"))
             .Distinct()
             .ToHashSet();
 
-        meses.Add(DateTime.Now.ToString("yyyy-MM"));
+        meses.Add(DateTime.Now.ToString("dd/MM/yyyy"));
 
         MesesDisponibles = meses
             .OrderByDescending(m => m)
@@ -210,7 +210,7 @@
                 .ToList();
 
             var gastosMes = gastosPersona
-                .Where(g => ObtenerFecha(g.Fecha)?.ToString("yyyy-MM") == mesSeleccionado)
+                .Where(g => ObtenerFecha(g.Fecha)?.ToString("dd/MM/yyyy") == mesSeleccionado)
                 .GroupBy(g => string.IsNullOrWhiteSpace(g.Categoria)
                     ? "Sin categoría"
                     : g.Categoria!.Trim())
@@ -225,7 +225,7 @@
             var meses = gastosPersona
                 .Select(g => ObtenerFecha(g.Fecha))
                 .Where(f => f.HasValue)
-                .Select(f => f!.Value.ToString("yyyy-MM"))
+                .Select(f => f!.Value.ToString("dd/MM/yyyy"))
                 .Distinct()
                 .OrderBy(m => m)
                 .ToList();
@@ -246,7 +246,7 @@
                         (string.IsNullOrWhiteSpace(g.Categoria)
                             ? "Sin categoría"
                             : g.Categoria!.Trim()) == categoria
-                        && ObtenerFecha(g.Fecha)?.ToString("yyyy-MM") == mes)
+                        && ObtenerFecha(g.Fecha)?.ToString("dd/MM/yyyy") == mes)
                     .Sum(g => g.Importe))
                     .ToList()
             }).Cast<object>().ToList();
@@ -255,7 +255,7 @@
             {
                 name = "Total",
                 data = meses.Select(mes => gastosPersona
-                    .Where(g => ObtenerFecha(g.Fecha)?.ToString("yyyy-MM") == mes)
+                    .Where(g => ObtenerFecha(g.Fecha)?.ToString("dd/MM/yyyy") == mes)
                     .Sum(g => g.Importe))
                     .ToList()
             });
@@ -318,7 +318,7 @@
             out var fecha))
             return valor;
 
-        return fecha.ToString("MMMM yyyy", new CultureInfo("es-PE"));
+        return fecha.ToString("dd/MM/yyyy", new CultureInfo("es-PE"));
     }
 
     public async ValueTask DisposeAsync()

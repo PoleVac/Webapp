@@ -131,11 +131,11 @@ window.estadisticasGastos = (() => {
                         data: persona.meses,
                         axisLabel: {
                             formatter: valor => {
-                                const [anio, mes] = valor.split("-");
+                                const [dia, mes, anio] = valor.split("/");
                                 const fecha = new Date(
                                     Number(anio),
                                     Number(mes) - 1,
-                                    1
+                                    Number(dia)
                                 );
                                 return fecha.toLocaleDateString("es-PE", {
                                     month: "short",
