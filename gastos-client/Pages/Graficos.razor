@@ -184,7 +184,7 @@
             .Distinct()
             .ToHashSet();
 
-        meses.Add(DateTime.Now.ToString("dd/MM/yyyy"));
+        meses.Add(DateTime.Now.ToString("yyyy-MM"));
 
         MesesDisponibles = meses
             .OrderByDescending(m => m)

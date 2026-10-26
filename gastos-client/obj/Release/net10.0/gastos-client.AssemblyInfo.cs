@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("gastos-client")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+98d9d462e9d5c77cc256b9e9823b5f16c7cc826d")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+88088c6379ee5d4a6115d1b6b0ab17adac13f929")]
 [assembly: System.Reflection.AssemblyProductAttribute("gastos-client")]
 [assembly: System.Reflection.AssemblyTitleAttribute("gastos-client")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
