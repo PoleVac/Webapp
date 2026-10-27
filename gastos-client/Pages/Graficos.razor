@@ -12,7 +12,7 @@
 
 <div class="estadisticas-page">
     <div class="estadisticas-header">
-        <div>
+        <div class="text-white expense-card">
             <h1>Estadísticas</h1>
             <p>Analiza los gastos mensuales de cada persona.</p>
         </div>
@@ -28,16 +28,16 @@
     }
     else if (cargando)
     {
-        <p>Cargando gastos...</p>
+        <p class="text-white">Cargando gastos...</p>
     }
     else if (gastos.Count == 0)
     {
-        <p>No se encontraron gastos para mostrar.</p>
+        <p class="text-white">No se encontraron gastos para mostrar.</p>
     }
     else
     {
         <div class="filtro-mes">
-            <label for="mes-estadisticas">Mes del gráfico circular:</label>
+            <label for="mes-estadisticas" class="text-white">Mes del gráfico circular:</label>
             <select id="mes-estadisticas" @bind="mesSeleccionado" @bind:after="ActualizarGraficos">
                 @foreach (var mes in MesesDisponibles)
                 {
@@ -49,7 +49,7 @@
         @foreach (var persona in Personas.Select((nombre, indice) => new { nombre, indice }))
         {
             <section class="persona-estadisticas" @key="persona.nombre">
-                <h2>@persona.nombre</h2>
+                <h2 class="text-white">@persona.nombre</h2>
 
                 <div class="graficos-grid">
                     <article class="grafico-card">
@@ -83,7 +83,8 @@
     private readonly Dictionary<string, int> diasReinicio =
         new(StringComparer.OrdinalIgnoreCase)
         {
-            ["Alejandro"] = 25
+            ["Alejandro"] = 25,
+            ["Dayanna"] = 10
         };
 
     private int ObtenerDiaReinicio(string persona)

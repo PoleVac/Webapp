@@ -1,6 +1,27 @@
 
 window.estadisticasGastos = (() => {
     const graficos = new Map();
+    const coloresCategorias = {
+        "Alimentación": "#E74C3C",
+        "Vivienda": "#3498DB",
+        "Servicios": "#4e12f3",
+        "Transporte": "#2ECC71",
+        "Ocio": "#9B59B6",
+        "Compras": "#E84393",
+        "Salud": "#1ABC9C",
+        "Legos": "#795548",
+        "Educación": "#34495E",
+        "Viajes": "#16A085",
+        "Mascotas": "#D35400",
+        "Otros": "#7F8C8D",
+        "Sin categoría": "#BDC3C7"
+    };
+
+    const colorTotal = "#e455e4";
+
+    function obtenerColorCategoria(nombre) {
+        return coloresCategorias[nombre] || "#dcf500";
+    }
 
     function inicializar() {
         if (typeof echarts === "undefined") {
@@ -64,7 +85,12 @@ window.estadisticasGastos = (() => {
                         label: {
                             formatter: "{b}\n{d}%"
                         },
-                        data: persona.pie
+                        data: persona.pie.map(g => ({
+                            ...g,
+                            itemStyle: {
+                                color: obtenerColorCategoria(g.name)
+                            }
+                        }))
                     }],
                     graphic: persona.pie.length
                         ? []
@@ -86,16 +112,46 @@ window.estadisticasGastos = (() => {
                 const series = persona.series.map(s => {
                     const esTotal = s.name === "Total acumulado";
 
+                    // const serie = {
+                    //     name: s.name,
+                    //     type: "line",
+                    //     data: s.data,
+                    //     smooth: false,
+                    //     showSymbol: true,
+                    //     symbolSize: esTotal ? 5 : 6,
+                    //     lineStyle: {
+                    //         width: esTotal ? 3.5 : 2
+                    //     },
+                    //     emphasis: {
+                    //         focus: "series"
+                    //     }
+                    // };
+
                     const serie = {
                         name: s.name,
                         type: "line",
                         data: s.data,
                         smooth: false,
                         showSymbol: true,
-                        symbolSize: esTotal ? 5 : 6,
+                        symbolSize: s.name === "Total acumulado" ? 5 : 6,
+
+                        color: s.name === "Total acumulado"
+                            ? colorTotal
+                            : obtenerColorCategoria(s.name),
+
                         lineStyle: {
-                            width: esTotal ? 3.5 : 2
+                            color: s.name === "Total acumulado"
+                                ? colorTotal
+                                : obtenerColorCategoria(s.name),
+                            width: s.name === "Total acumulado" ? 3.5 : 2
                         },
+
+                        itemStyle: {
+                            color: s.name === "Total acumulado"
+                                ? colorTotal
+                                : obtenerColorCategoria(s.name)
+                        },
+
                         emphasis: {
                             focus: "series"
                         }
