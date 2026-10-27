@@ -1,4 +1,3 @@
-
 @page "/graficos"
 
 @using System.Globalization
@@ -18,9 +17,7 @@
             <p>Analiza los gastos mensuales de cada persona.</p>
         </div>
 
-        <button class="actualizar-btn"
-                @onclick="CargarGastos"
-                disabled="@cargando">
+        <button class="btn btn-outline-primary" @onclick="CargarGastos" disabled="@cargando">
             @(cargando ? "Cargando..." : "Actualizar")
         </button>
     </div>
@@ -41,9 +38,7 @@
     {
         <div class="filtro-mes">
             <label for="mes-estadisticas">Mes del gráfico circular:</label>
-            <select id="mes-estadisticas"
-                    @bind="mesSeleccionado"
-                    @bind:after="ActualizarGraficos">
+            <select id="mes-estadisticas" @bind="mesSeleccionado" @bind:after="ActualizarGraficos">
                 @foreach (var mes in MesesDisponibles)
                 {
                     <option value="@mes.Valor">@mes.Nombre</option>
@@ -60,15 +55,13 @@
                     <article class="grafico-card">
                         <h3>Gastos por categoría</h3>
                         <p class="grafico-subtitulo">@NombreMes(mesSeleccionado)</p>
-                        <div id="@($"pie-{persona.indice}")"
-                             class="grafico-echarts"></div>
+                        <div id="@($"pie-{persona.indice}")" class="grafico-echarts"></div>
                     </article>
 
                     <article class="grafico-card">
                         <h3>Evolución mensual</h3>
                         <p class="grafico-subtitulo">Importes mensuales en S/</p>
-                        <div id="@($"line-{persona.indice}")"
-                             class="grafico-echarts"></div>
+                        <div id="@($"line-{persona.indice}")" class="grafico-echarts"></div>
                     </article>
                 </div>
             </section>
@@ -79,11 +72,26 @@
 @code {
     private List<GastoEstadistica> gastos = new();
     private List<(string Valor, string Nombre)> MesesDisponibles = new();
-    private string mesSeleccionado = DateTime.Now.ToString("dd/MM/yyyy");
+    private string mesSeleccionado = DateTime.Now.ToString("yyyy-MM");
     private bool cargando;
     private string error = "";
     private bool scriptsListos;
     private bool primeraCargaGraficos;
+
+    // Día en que comienza el ciclo de gastos de cada persona.
+    // Las personas que no estén en este diccionario empiezan el día 1.
+    private readonly Dictionary<string, int> diasReinicio =
+        new(StringComparer.OrdinalIgnoreCase)
+        {
+            ["Alejandro"] = 25
+        };
+
+    private int ObtenerDiaReinicio(string persona)
+    {
+        return diasReinicio.TryGetValue(persona, out var dia)
+            ? Math.Clamp(dia, 1, 28)
+            : 1;
+    }
 
     private List<string> Personas => gastos
         .Select(g => (g.PagadoPor ?? "").Trim())
@@ -158,6 +166,7 @@
 
             ActualizarMeses();
 
+            @* Seleccionar mes actual  *@
             if (!MesesDisponibles.Any(m => m.Valor == mesSeleccionado))
                 mesSeleccionado = MesesDisponibles.FirstOrDefault().Valor
                     ?? DateTime.Now.ToString("dd/MM/yyyy");
@@ -180,7 +189,7 @@
         var meses = gastos
             .Select(g => ObtenerFecha(g.Fecha))
             .Where(f => f.HasValue)
-            .Select(f => f!.Value.ToString("dd/MM/yyyy"))
+            .Select(f => f!.Value.ToString("yyyy-MM"))
             .Distinct()
             .ToHashSet();
 
@@ -195,10 +204,33 @@
             .ToList();
     }
 
+    
     private async Task ActualizarGraficos()
     {
         if (!scriptsListos || Personas.Count == 0)
             return;
+
+        var hoy = DateTime.Today;
+
+        var fechasGastos = gastos
+            .Select(g => ObtenerFecha(g.Fecha))
+            .Where(f => f.HasValue)
+            .Select(f => f!.Value.Date)
+            .ToList();
+
+        var fechaInicio = fechasGastos.Count > 0
+            ? fechasGastos.Min()
+            : hoy;
+
+        // Incluir hoy y el día siguiente para poder resaltar el día actual.
+        var fechaFin = fechasGastos.Count > 0
+            ? (fechasGastos.Max() > hoy ? fechasGastos.Max() : hoy).AddDays(1)
+            : hoy.AddDays(1);
+
+        var dias = Enumerable.Range(
+                0, (fechaFin - fechaInicio).Days + 1)
+            .Select(i => fechaInicio.AddDays(i).ToString("yyyy-MM-dd"))
+            .ToList();
 
         var datosPersonas = Personas.Select((persona, indice) =>
         {
@@ -209,11 +241,16 @@
                     StringComparison.OrdinalIgnoreCase))
                 .ToList();
 
-            var gastosMes = gastosPersona
-                .Where(g => ObtenerFecha(g.Fecha)?.ToString("dd/MM/yyyy") == mesSeleccionado)
-                .GroupBy(g => string.IsNullOrWhiteSpace(g.Categoria)
+            string Categoria(GastoEstadistica g) =>
+                string.IsNullOrWhiteSpace(g.Categoria)
                     ? "Sin categoría"
-                    : g.Categoria!.Trim())
+                    : g.Categoria.Trim();
+
+            // PIE: gastos de la persona en el mes seleccionado.
+            var gastosMes = gastosPersona
+                .Where(g =>
+                    ObtenerFecha(g.Fecha)?.ToString("yyyy-MM") == mesSeleccionado)
+                .GroupBy(Categoria)
                 .Select(grupo => new
                 {
                     name = grupo.Key,
@@ -222,59 +259,82 @@
                 .Where(g => g.value != 0)
                 .ToList();
 
-            var meses = gastosPersona
-                .Select(g => ObtenerFecha(g.Fecha))
-                .Where(f => f.HasValue)
-                .Select(f => f!.Value.ToString("dd/MM/yyyy"))
-                .Distinct()
-                .OrderBy(m => m)
-                .ToList();
-
             var categorias = gastosPersona
-                .Select(g => string.IsNullOrWhiteSpace(g.Categoria)
-                    ? "Sin categoría"
-                    : g.Categoria!.Trim())
+                .Select(Categoria)
                 .Distinct()
                 .OrderBy(c => c)
                 .ToList();
 
-            var series = categorias.Select(categoria => new
+            // Líneas de categorías: importe gastado por día.
+            var series = categorias.Select(categoria => (object)new
             {
                 name = categoria,
-                data = meses.Select(mes => gastosPersona
+                data = dias.Select(dia => gastosPersona
                     .Where(g =>
-                        (string.IsNullOrWhiteSpace(g.Categoria)
-                            ? "Sin categoría"
-                            : g.Categoria!.Trim()) == categoria
-                        && ObtenerFecha(g.Fecha)?.ToString("dd/MM/yyyy") == mes)
+                        Categoria(g) == categoria &&
+                        ObtenerFecha(g.Fecha)?.ToString("yyyy-MM-dd") == dia)
                     .Sum(g => g.Importe))
                     .ToList()
-            }).Cast<object>().ToList();
+            }).ToList();
+
+            // Total acumulado desde el día de reinicio del ciclo.
+            var diaReinicio = ObtenerDiaReinicio(persona);
+            decimal acumulado = 0;
+
+            var totalAcumulado = dias.Select(dia =>
+            {
+                var fecha = DateTime.ParseExact(
+                    dia, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+
+                if (fecha.Day == diaReinicio)
+                    acumulado = 0;
+
+                var gastoDelDia = gastosPersona
+                    .Where(g =>
+                        ObtenerFecha(g.Fecha)?.ToString("yyyy-MM-dd") == dia)
+                    .Sum(g => g.Importe);
+
+                acumulado += gastoDelDia;
+                return acumulado;
+            }).ToList();
 
             series.Add(new
             {
-                name = "Total",
-                data = meses.Select(mes => gastosPersona
-                    .Where(g => ObtenerFecha(g.Fecha)?.ToString("dd/MM/yyyy") == mes)
-                    .Sum(g => g.Importe))
-                    .ToList()
+                name = "Total acumulado",
+                data = totalAcumulado
             });
+
+            // Detalle para el tooltip: descripción, categoría e importe.
+            var detalles = gastosPersona
+                .Where(g => ObtenerFecha(g.Fecha).HasValue)
+                .Select(g => new
+                {
+                    fecha = ObtenerFecha(g.Fecha)!.Value.ToString("yyyy-MM-dd"),
+                    categoria = Categoria(g),
+                    descripcion = string.IsNullOrWhiteSpace(g.Descripcion)
+                        ? "Sin descripción"
+                        : g.Descripcion.Trim(),
+                    importe = g.Importe
+                })
+                .ToList();
 
             return new
             {
                 index = indice,
                 nombre = persona,
                 pie = gastosMes,
-                meses,
-                series
+                dias,
+                hoy = hoy.ToString("yyyy-MM-dd"),
+                series,
+                detalles
             };
         }).ToList();
 
-        await JS.InvokeVoidAsync("estadisticasGastos.renderizar", new
-        {
-            personas = datosPersonas
-        });
+        await JS.InvokeVoidAsync(
+            "estadisticasGastos.renderizar",
+            new { personas = datosPersonas });
     }
+
 
     private static DateTime? ObtenerFecha(string? texto)
     {
@@ -316,9 +376,13 @@
             CultureInfo.InvariantCulture,
             DateTimeStyles.None,
             out var fecha))
+        {
             return valor;
+        }
 
-        return fecha.ToString("dd/MM/yyyy", new CultureInfo("es-PE"));
+        return fecha.ToString(
+            "MMMM yyyy",
+            new CultureInfo("es-PE"));
     }
 
     public async ValueTask DisposeAsync()
@@ -347,5 +411,7 @@
 
         [JsonPropertyName("pagado_por")]
         public string? PagadoPor { get; set; }
+        [JsonPropertyName("descripcion")]
+        public string? Descripcion { get; set; }
     }
 }

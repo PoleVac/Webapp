@@ -22,24 +22,29 @@ window.estadisticasGastos = (() => {
         return grafico;
     }
 
+    function soles(valor) {
+        return Number(valor || 0).toLocaleString("es-PE", {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+        });
+    }
+
     function renderizar(datos) {
         inicializar();
-
-        window.datos = datos;
 
         for (const persona of datos.personas) {
             const pie = obtenerGrafico(`pie-${persona.index}`);
             const linea = obtenerGrafico(`line-${persona.index}`);
 
+            // GRÁFICO PIE: categorías del mes seleccionado.
             if (pie) {
                 pie.setOption({
                     tooltip: {
                         trigger: "item",
                         formatter: p =>
-                            `${p.name}<br/>S/ ${Number(p.value).toLocaleString(
-                                "es-PE",
-                                { minimumFractionDigits: 2 }
-                            )} (${p.percent}%)`
+                            `<strong>${p.name}</strong><br/>` +
+                            `Total: S/ ${soles(p.value)}<br/>` +
+                            `${p.percent}%`
                     },
                     legend: {
                         bottom: 0,
@@ -61,22 +66,6 @@ window.estadisticasGastos = (() => {
                         },
                         data: persona.pie
                     }],
-                    dataZoom: [
-                        {
-                            type: 'slider',
-                            xAxisIndex: 'all',
-                            left: '5%',
-                            right: '5%',
-                            bottom: 20,
-                            height: 30,
-                            throttle: 120
-                        },
-                        {
-                            type: 'inside',
-                            xAxisIndex: 'all',
-                            throttle: 120
-                        }
-                    ],
                     graphic: persona.pie.length
                         ? []
                         : [{
@@ -92,57 +81,135 @@ window.estadisticasGastos = (() => {
                 }, true);
             }
 
+            // GRÁFICO DE LÍNEAS: importes diarios y total acumulado.
             if (linea) {
-                const series = persona.series.map(s => ({
-                    name: s.name,
-                    type: "line",
-                    data: s.data,
-                    smooth: true,
-                    showSymbol: true,
-                    symbolSize: 6,
-                    lineStyle: {
-                        width: s.name === "Total" ? 3.5 : 2
-                    },
-                    emphasis: {
-                        focus: "series"
+                const series = persona.series.map(s => {
+                    const esTotal = s.name === "Total acumulado";
+
+                    const serie = {
+                        name: s.name,
+                        type: "line",
+                        data: s.data,
+                        smooth: false,
+                        showSymbol: true,
+                        symbolSize: esTotal ? 5 : 6,
+                        lineStyle: {
+                            width: esTotal ? 3.5 : 2
+                        },
+                        emphasis: {
+                            focus: "series"
+                        }
+                    };
+
+                    // Franja vertical para identificar el día de hoy.
+                    if (esTotal) {
+                        serie.markArea = {
+                            silent: true,
+                            itemStyle: {
+                                color: "rgba(255, 165, 0, 0.16)"
+                            },
+                            data: [[
+                                { xAxis: persona.hoy },
+                                {
+                                    xAxis: persona.dias[
+                                        persona.dias.indexOf(persona.hoy) + 1
+                                    ] || persona.hoy
+                                }
+                            ]]
+                        };
+
+                        serie.markLine = {
+                            silent: true,
+                            symbol: ["none", "none"],
+                            lineStyle: {
+                                color: "#e67e22",
+                                width: 2,
+                                type: "dashed"
+                            },
+                            label: {
+                                show: true,
+                                formatter: "Hoy",
+                                position: "insideEndTop"
+                            },
+                            data: [{ xAxis: persona.hoy }]
+                        };
                     }
-                }));
+
+                    return serie;
+                });
 
                 linea.setOption({
                     tooltip: {
                         trigger: "axis",
-                        valueFormatter: valor =>
-                            `S/ ${Number(valor).toLocaleString("es-PE", {
-                                minimumFractionDigits: 2,
-                                maximumFractionDigits: 2
-                            })}`
+                        axisPointer: {
+                            type: "line"
+                        },
+                        formatter: parametros => {
+                            if (!parametros.length) return "";
+
+                            const dia = parametros[0].axisValue;
+                            const [anio, mes, diaMes] = dia.split("-");
+                            const fecha = new Date(
+                                Number(anio),
+                                Number(mes) - 1,
+                                Number(diaMes)
+                            );
+
+                            const titulo = fecha.toLocaleDateString("es-PE", {
+                                weekday: "short",
+                                day: "2-digit",
+                                month: "long",
+                                year: "numeric"
+                            });
+
+                            const valores = parametros.map(p =>
+                                `${p.marker}${p.seriesName}: S/ ${soles(p.value)}`
+                            ).join("<br/>");
+
+                            const detalles = persona.detalles.filter(g =>
+                                g.fecha === dia
+                            );
+
+                            const listaGastos = detalles.length
+                                ? detalles.map(g =>
+                                    `${g.categoria} — ${g.descripcion}: ` +
+                                    `S/ ${soles(g.importe)}`
+                                ).join("<br/>")
+                                : "Sin gastos registrados";
+
+                            return `<strong>${titulo}</strong><br/>` +
+                                `${valores}<hr/>` +
+                                `<strong>Detalle de gastos</strong><br/>` +
+                                `${listaGastos}`;
+                        }
                     },
+
                     legend: {
                         type: "scroll",
                         bottom: 0
                     },
+
                     grid: {
-                        left: 60,
-                        right: 20,
-                        top: 25,
-                        bottom: 85
+                        left: 65,
+                        right: 25,
+                        top: 35,
+                        bottom: 105
                     },
+
                     xAxis: {
                         type: "category",
                         boundaryGap: false,
-                        data: persona.meses,
+                        data: persona.dias,
                         axisLabel: {
+                            hideOverlap: true,
+                            rotate: 45,
                             formatter: valor => {
-                                const [dia, mes, anio] = valor.split("/");
-                                const fecha = new Date(
-                                    Number(anio),
-                                    Number(mes) - 1,
-                                    Number(dia)
-                                );
-                                return fecha.toLocaleDateString("es-PE");
+                                const [, mes, dia] = valor.split("-");
+                                return `${dia}/${mes}`;
                             }
                         }
                     },
+
                     yAxis: {
                         type: "value",
                         name: "S/",
@@ -151,30 +218,29 @@ window.estadisticasGastos = (() => {
                                 Number(valor).toLocaleString("es-PE")
                         }
                     },
+
                     dataZoom: [
                         {
-                            type: 'slider',
-                            xAxisIndex: 'all',
-                            left: '5%',
-                            right: '5%',
-                            bottom: 20,
-                            height: 30,
-                            throttle: 120
+                            type: "inside",
+                            xAxisIndex: 0,
+                            filterMode: "filter"
                         },
                         {
-                            type: 'inside',
-                            xAxisIndex: 'all',
-                            throttle: 120
+                            type: "slider",
+                            xAxisIndex: 0,
+                            filterMode: "filter",
+                            bottom: 35,
+                            height: 20
                         }
                     ],
+
                     series
                 }, true);
             }
         }
 
-        // El tamaño de los gráficos se adapta al contenedor.
         for (const grafico of graficos.values()) {
-            grafico.resize();
+            if (!grafico.isDisposed()) grafico.resize();
         }
     }
 
@@ -182,6 +248,7 @@ window.estadisticasGastos = (() => {
         for (const grafico of graficos.values()) {
             if (!grafico.isDisposed()) grafico.dispose();
         }
+
         graficos.clear();
     }
 
