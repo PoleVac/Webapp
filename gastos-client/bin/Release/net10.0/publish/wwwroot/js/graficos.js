@@ -2,25 +2,26 @@
 window.estadisticasGastos = (() => {
     const graficos = new Map();
     const coloresCategorias = {
-        "Alimentación": "#E74C3C",
-        "Vivienda": "#3498DB",
-        "Servicios": "#4e12f3",
-        "Transporte": "#2ECC71",
-        "Ocio": "#9B59B6",
-        "Compras": "#E84393",
+        "Ropa": "#faa3f6",
+        "Restaurantes/Delivery": "#3498DB",
+        "Alimentación por conveniencia": "#4e12f3",
+        "Alimentación mensual": "#2ECC71",
+        "Transporte público": "#633030",
+        "Compras variadas": "#E84393",
+        "Legos": "#E74C3C",
+        "Mini": "#372341",
+        "Juegos": "#9B59B6",
         "Salud": "#1ABC9C",
-        "Legos": "#795548",
-        "Educación": "#34495E",
-        "Viajes": "#16A085",
-        "Mascotas": "#D35400",
         "Otros": "#7F8C8D",
-        "Sin categoría": "#BDC3C7"
+        "Servicios": "#0b3a5c"
     };
+
+
 
     const colorTotal = "#e455e4";
 
     function obtenerColorCategoria(nombre) {
-        return coloresCategorias[nombre] || "#dcf500";
+        return coloresCategorias[nombre] || "#F1C40F";
     }
 
     function inicializar() {
