@@ -24,7 +24,7 @@
 
     @(cargando ? (MarkupString)"<button class=\"btn btn-primary\" type=\"button\" disabled><span class=\"spinner-grow spinner-grow-sm\" role=\"status\" aria-hidden=\"true\"></span> Loading... </button>" : null)
 
-    @(cargando){
+    @if (cargando){
 
         <!-- Animated Bars -->
         <div class="bars">
